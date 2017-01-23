@@ -24,7 +24,9 @@ type Module struct {
 //
 func (self *Module) Initialize(properties map[string]interface{}) error {
 	self.properties = properties
-	self.Index = int(C.PA_INVALID_INDEX)
+	var i uint64
+	i = C.PA_INVALID_INDEX
+	self.Index = int(i)
 
 	if err := UnmarshalMap(self.properties, self); err == nil {
 		return nil
@@ -62,7 +64,9 @@ func (self *Module) Refresh() error {
 
 // Return whether the module is currently loaded or not
 func (self *Module) IsLoaded() bool {
-	return (self.Index != int(C.PA_INVALID_INDEX))
+	var i uint64
+	i = C.PA_INVALID_INDEX
+	return (self.Index != int(i))
 }
 
 // Load the module if it is not currently loaded
@@ -88,7 +92,9 @@ func (self *Module) Unload() error {
 
 		//  wait for the operation to finish and handle success and error cases
 		return operation.WaitSuccess(func(op *Operation) error {
-			self.Index = int(C.PA_INVALID_INDEX)
+			var i uint64
+			i = C.PA_INVALID_INDEX
+			self.Index = int(i)
 			return nil
 		})
 	} else {
